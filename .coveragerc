@@ -1,0 +1,9 @@
+[run]
+omit =
+    */__init__.py
+    src/__tests__/*
+    src/rpg_companion/i18n/translations_rc.py
+
+[report]
+# Niveau minimal de couverture à atteindre
+fail_under = 80

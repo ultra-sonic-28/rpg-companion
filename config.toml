@@ -1,0 +1,18 @@
+[window]
+x = 93
+y = 81
+width = 654
+height = 882
+maximized = false
+
+[logging]
+enabled = true
+level = "DEBUG"
+file = "./rpg-companion.log"
+mode = "write"  # write -> create file mode, overwrite existing file / append -> add log informations at the end of the file
+
+[appearance]
+mode = "auto"  # auto / light mode / dark mode
+
+[general]
+language = "fr_FR"  # fr_FR / en_US (default)
