@@ -19,7 +19,8 @@ def updateTranslations():
 @task
 def test(c):
     """Exécute les tests unitaires avec pytest."""
-    c.run("pytest -x --color=yes")
+    cmd = ['pytest', '-x', '--color=yes']
+    result = subprocess.run(cmd, encoding="utf-8")
 
 @task
 def coverage(c):

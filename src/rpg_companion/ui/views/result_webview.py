@@ -1,4 +1,6 @@
-from typing import Any
+from typing import Any, Optional, Dict
+from abc import ABC, abstractmethod
+
 from PySide6.QtCore import Qt, Signal
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWebChannel import QWebChannel
@@ -9,20 +11,40 @@ from rpg_companion.types.weapon_hands_type import WeaponHandsType
 _: Any
 
 class ResultWebView(QWebEngineView):
-    # Signal pour notifier qu'un nouveau tirage doit être effectué
+    """
+    Vue HTML utilisée pour afficher les résultats de tirages.
+    Cette classe sert de base pour plusieurs vues spécialisées :
+    - WeaponsResultWebView
+    - ArmorResultWebView
+
+    La méthode `_format_result()` doit être redéfinie dans les classes dérivées.
+    """
+
+    # Signal pour déclencher un nouveau tirage (appelé depuis JavaScript)
     request_new_roll = Signal()
     
-    def __init__(self, title=None, parent=None, bridge_callback=None, initial_theme="light"):
+    # ---------------------------------------------------------
+    # Initialisation
+    # ---------------------------------------------------------
+    def __init__(
+        self,
+        title: Optional[str] = None,
+        parent=None,
+        bridge_callback=None,
+        initial_theme: str = "light"
+    ):
         super().__init__(parent)
+
         self.parent = parent
         self.bridge_callback = bridge_callback
 
         self.title = title or _("Résultats")
         self.theme = initial_theme
+
         self.loaded = False
         self.pending_entries = []
 
-        self.channel = None
+        self.channel: Optional[QWebChannel] = None
         self.bridge = None
 
         html = self._create_base_html(self.theme)
@@ -61,8 +83,10 @@ class ResultWebView(QWebEngineView):
     def _create_base_html(self, theme):
         css = self._get_css(theme)
         color_scheme = "dark" if theme == "dark" else "light"
+
         strBtnNewRoll = _("Effectuer un nouveau tirage")
         strBtnClearHisto = _("Effacer l'historique")
+
         return f"""
         <html>
         <head>
@@ -131,10 +155,10 @@ class ResultWebView(QWebEngineView):
     # Changement de thème dynamique
     # ---------------------------------------------------------
     def set_theme(self, theme):
+        """Modifie uniquement les styles CSS sans recharger la page."""
         self.theme = theme
         css = self._get_css(theme)
 
-        # Remplace seulement le CSS via JS, sans recharger toute la page
         js = f"""
         document.querySelector('style').innerHTML = `{css}`;
         """
@@ -148,6 +172,7 @@ class ResultWebView(QWebEngineView):
 
         # Crée le bridge seulement après le chargement complet
         from rpg_companion.ui.bridge import Bridge
+
         self.bridge = Bridge(callback=self.bridge_callback)  # callback = fonction Python pour le tirage
         self.channel = QWebChannel(self.page())
         self.channel.registerObject("bridge", self.bridge)
@@ -165,14 +190,17 @@ class ResultWebView(QWebEngineView):
 
         self.page().runJavaScript(init_js)
         
+        # Ajoute les éventuelles entrées en attente
         for entry in self.pending_entries:
             self._inject_html(entry)
+        
         self.pending_entries.clear()
 
     # ---------------------------------------------------------
     # Ajout de résultats
     # ---------------------------------------------------------
     def append(self, result_dict: dict):
+        """Ajoute une entrée HTML formatée dans la page."""
         html_entry = self._format_result(result_dict)
 
         if not self.loaded:
@@ -182,65 +210,15 @@ class ResultWebView(QWebEngineView):
         self._inject_html(html_entry)
 
     # ---------------------------------------------------------
-    # HTML pour une entrée
+    # Méthode à surcharger dans les classes dérivées
     # ---------------------------------------------------------
-    def _format_result(self, result):
-        desc = result.get("description", "")
-        strRoll = _("Jet")
-        strRange = _("Intervalle")
-        strName = _("Nom")
-        strHandLibs = _("Main")
-        strHands = (
-            WeaponHandsType.ONE_HAND.label
-            if result["hands"] == 1
-            else WeaponHandsType.TWO_HANDS.label
-        )
-        strType = _("Type")
-        strDamage = _("Dégats")
-        strValue = _("Valeur")
-        strFixCost= _("Réparation")
-        strDescription = _("Description")
-
-        return f"""
-        <table class="entry">
-            <tr>
-                <td class="label">{strRoll}</td>
-                <td class="data">{result['roll']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strRange}</td>
-                <td class="data">{result['range']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strName}</td>
-                <td class="data">{result['name']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strHandLibs}</td>
-                <td class="data">{result['hands']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strType}</td>
-                <td class="data">{result['type']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strDamage}</td>
-                <td class="data">{result['damage']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strValue}</td>
-                <td class="data">{result['value']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strFixCost}</td>
-                <td class="data">{result['fix_cost']}</td>
-            </tr>
-            <tr>
-                <td class="label">{strDescription}</td>
-                <td class="data">{desc}</td>
-            </tr>
-        </table>
+    @abstractmethod
+    def _format_result(self, result: Dict[str, Any]) -> str:
         """
+        Doit retourner une chaîne HTML représentant une entrée.
+        Implémentée dans les classes WeaponsResultWebView et ArmorResultWebView.
+        """
+        raise NotImplementedError
 
     # ---------------------------------------------------------
     # Injection JS
@@ -257,6 +235,7 @@ class ResultWebView(QWebEngineView):
     # Vider l'historique
     # ---------------------------------------------------------
     def clear_history(self):
+        """Efface toutes les entrées affichées."""
         self.pending_entries.clear()
         self.page().runJavaScript("""
             document.getElementById("entries").innerHTML = "";

@@ -11,8 +11,9 @@ from PySide6.QtGui import QAction, QIcon
 from rpg_companion.db.session import Session
 from rpg_companion.types.resource_type import ResourceType
 from rpg_companion.ui.resource_browser import ResourceBrowser
+from rpg_companion.ui.views.armors_result_webview import ArmorResultWebView
+from rpg_companion.ui.views.weapons_result_webview import WeaponsResultWebView
 from rpg_companion.utils.qthreads import DBWorker
-from rpg_companion.ui.widgets.result_webview import ResultWebView
 from rpg_companion.ui.bridge import Bridge
 from rpg_companion.utils.resource_manager import ResourceManager
 from rpg_companion.ui.widgets.dice_overlay import DiceOverlay
@@ -85,6 +86,10 @@ class MainWindow(QMainWindow):
         action_weapons = menu_tables.addAction(_("Armes (Table W)"))
         action_weapons.triggered.connect(self.on_roll_weapon)
 
+        # Table des Armures (A)
+        action_armors = menu_tables.addAction(_("Armures (Table A)"))
+        action_armors.triggered.connect(self.on_roll_armor)
+
         # --- Menu Développeur ---
         dev_menu = menu_bar.addMenu(_("Développeur"))
 
@@ -108,7 +113,7 @@ class MainWindow(QMainWindow):
             self.log.debug("Weapons view closed")
             self.weapon_view = None
         elif widget is self.armor_view:
-            self.log.debug("Armour view closed")
+            self.log.debug("Armors view closed")
             self.armor_view = None
         elif widget is self._resource_browser:
             self.log.debug("Resource browser view closed")
@@ -124,6 +129,9 @@ class MainWindow(QMainWindow):
         if self.armor_view:
             self.armor_view.set_theme(theme)
 
+    # ----------------------------------------
+    # Actions - Roll on Weapon Table
+    # ----------------------------------------
     def on_roll_weapon(self):
         self.log.info("Roll on weapons table")
         def work():
@@ -152,7 +160,7 @@ class MainWindow(QMainWindow):
 
     def get_weapon_view(self):
         if self.weapon_view is None:
-            self.weapon_view = ResultWebView(_("Tirages d'Armes"), self, self.on_roll_weapon)
+            self.weapon_view = WeaponsResultWebView(_("Tirages d'Armes"), self, self.on_roll_weapon)
 
             self.tabs.addTab(self.weapon_view, _("Armes"))
 
@@ -170,12 +178,58 @@ class MainWindow(QMainWindow):
         # Puis vider la file
         self.weapon_pending_results.clear()
 
+    # ----------------------------------------
+    # Actions - Roll on Armor Table
+    # ----------------------------------------
+    def on_roll_armor(self):
+        self.log.info("Roll on armors table")
+        def work():
+            with Session() as session:
+                from rpg_companion.repos.armor_repo import ArmorRepository
+                from rpg_companion.services.armor_service import ArmorService
+
+                repo = ArmorRepository(session)
+                svc = ArmorService(repo)
+                return svc.roll_armor()
+
+        self.show_dice_animation()
+
+        worker = DBWorker(work)
+        worker.signals.finished.connect(self._on_armor_result)
+        self._threadpool.start(worker)
+
+    def _on_armor_result(self, result, error):
+        if error:
+            QMessageBox.critical(self, "Erreur", str(error))
+            return
+
+        view = self.get_armor_view()
+        view.append(result)
+        self.tabs.setCurrentWidget(view)
+
     def get_armor_view(self):
         if self.armor_view is None:
-            self.weapon_view = ResultWebView(_("Tirages d'Armures"), self)
+            self.armor_view = ArmorResultWebView(_("Tirages d'Armures"), self, self.on_roll_armor)
+
             self.tabs.addTab(self.armor_view, _("Armures"))
+
         return self.armor_view
 
+    def _on_armor_view_loaded(self, ok):
+        if not ok:
+            print("ERREUR: Webview Armures n'a pas chargé la page HTML.")
+            return
+
+        # Injecter tout ce qui était en attente
+        for result in self.armor_pending_results:
+            self.append_result_to_view(self.armor_view, result)
+
+        # Puis vider la file
+        self.armor_pending_results.clear()
+
+    # ----------------------------------------
+    # Actions - Resource Browser
+    # ----------------------------------------
     def open_resource_browser(self):
         view = self.get_resource_browser_view()
         self.tabs.setCurrentWidget(view)
@@ -187,6 +241,9 @@ class MainWindow(QMainWindow):
 
         return self._resource_browser
 
+    # ----------------------------------------
+    # Actions - About Dialog
+    # ----------------------------------------
     def _open_about(self):
         self.log.info("Dialog: About")
 

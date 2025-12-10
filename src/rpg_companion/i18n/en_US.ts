@@ -3,62 +3,67 @@
   <context>
     <name>MainWindow</name>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="66"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="67"/>
       <source>Fichier</source>
       <translation>File</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="70"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="71"/>
       <source>A propos</source>
       <translation>About</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="76"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="77"/>
       <source>Quitter</source>
       <translation>Exit</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="82"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="83"/>
       <source>Tables</source>
       <translation>Tables</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="85"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="86"/>
       <source>Armes (Table W)</source>
       <translation>Weapons (Table W)</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="89"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="90"/>
+      <source>Armures (Table A)</source>
+      <translation>Armors (Table A)</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="94"/>
       <source>Développeur</source>
       <translation>Developer</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="92"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="97"/>
       <source>Parcourir les ressources</source>
       <translation>Browse resources</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="155"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="163"/>
       <source>Tirages d'Armes</source>
       <translation>Weapon Dice Rolls</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="157"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="165"/>
       <source>Armes</source>
       <translation>Weapons</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="175"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="212"/>
       <source>Tirages d'Armures</source>
       <translation>Armour Dice Rolls</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="176"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="214"/>
       <source>Armures</source>
       <translation>Armors</translation>
     </message>
     <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="186"/>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\main_window.py" line="240"/>
       <source>Ressources</source>
       <translation>Resources</translation>
     </message>
@@ -115,6 +120,115 @@
     </message>
   </context>
   <context>
+    <name>ArmorResultWebView</name>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="21"/>
+      <source>Jet</source>
+      <translation>Roll</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="22"/>
+      <source>Intervalle</source>
+      <translation>Range</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="23"/>
+      <source>Nom</source>
+      <translation>Name</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="24"/>
+      <source>Emplacement</source>
+      <translation>Slot</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="25"/>
+      <source>Type</source>
+      <translation>Type</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="26"/>
+      <source>Modificateur AS</source>
+      <translation>Armor / Shield modifier</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="27"/>
+      <source>Valeur</source>
+      <translation>Value (gp)</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\armors_result_webview.py" line="28"/>
+      <source>Réparation</source>
+      <translation>Fix cost (gp)</translation>
+    </message>
+  </context>
+  <context>
+    <name>ResultWebView</name>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\result_webview.py" line="41"/>
+      <source>Résultats</source>
+      <translation>Results</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\result_webview.py" line="87"/>
+      <source>Effectuer un nouveau tirage</source>
+      <translation>Perform a new roll</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\result_webview.py" line="88"/>
+      <source>Effacer l'historique</source>
+      <translation>Clear history</translation>
+    </message>
+  </context>
+  <context>
+    <name>WeaponsResultWebView</name>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="21"/>
+      <source>Jet</source>
+      <translation>Roll</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="22"/>
+      <source>Intervalle</source>
+      <translation>Range</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="23"/>
+      <source>Nom</source>
+      <translation>Name</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="24"/>
+      <source>Main</source>
+      <translation>Hand</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="25"/>
+      <source>Type</source>
+      <translation>Type</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="26"/>
+      <source>Dégâts</source>
+      <translation>Damage bonus/penalty</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="27"/>
+      <source>Valeur</source>
+      <translation>Value (gp)</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="28"/>
+      <source>Réparation</source>
+      <translation>Fix cost (gp)</translation>
+    </message>
+    <message>
+      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\views\weapons_result_webview.py" line="29"/>
+      <source>Description</source>
+      <translation>Description</translation>
+    </message>
+  </context>
+  <context>
     <name>CustomFileSystemModel</name>
     <message>
       <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\custom_file_system_model.py" line="17"/>
@@ -140,69 +254,6 @@
       <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\custom_file_system_model.py" line="31"/>
       <source>Dossier</source>
       <translation>File folder</translation>
-    </message>
-  </context>
-  <context>
-    <name>ResultWebView</name>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="20"/>
-      <source>Résultats</source>
-      <translation>Results</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="64"/>
-      <source>Effectuer un nouveau tirage</source>
-      <translation>Perform a new roll</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="65"/>
-      <source>Effacer l'historique</source>
-      <translation>Clear history</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="189"/>
-      <source>Jet</source>
-      <translation>Roll</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="190"/>
-      <source>Intervalle</source>
-      <translation>Range</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="191"/>
-      <source>Nom</source>
-      <translation>Name</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="192"/>
-      <source>Main</source>
-      <translation>Hand</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="198"/>
-      <source>Type</source>
-      <translation>Type</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="199"/>
-      <source>Dégats</source>
-      <translation>Damage bonus/penalty</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="200"/>
-      <source>Valeur</source>
-      <translation>Value (gp)</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="201"/>
-      <source>Réparation</source>
-      <translation>Fix cost (gp)</translation>
-    </message>
-    <message>
-      <location filename="C:\My Program Files\rpg-companion\src\rpg_companion\ui\widgets\result_webview.py" line="202"/>
-      <source>Description</source>
-      <translation>Description</translation>
     </message>
   </context>
 </TS>

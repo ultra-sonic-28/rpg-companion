@@ -126,7 +126,7 @@ invoke build
 
 The binary will be available in the folder `dist/`.
 
-## 🔀 Using Jujutsu (jj) for everyday tasks
+## Using Jujutsu (jj) for everyday tasks
 
 ### View repository status
 
