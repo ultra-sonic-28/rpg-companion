@@ -69,6 +69,7 @@ rpg-companion/
 |   │   ├── types/
 |   │   ├── ui/
 |   |   │   ├── dialogs/
+|   |   │   ├── views/
 |   |   │   └── widgets/
 |   │   ├── utils/
 |   │   └── version/
@@ -125,33 +126,6 @@ invoke build
 ```
 
 The binary will be available in the folder `dist/`.
-
-## Using Jujutsu (jj) for everyday tasks
-
-### View repository status
-
-```bash
-jj status
-```
-
-### Create a new commit
-
-```bash
-jj commit -m "Change description"
-```
-
-### Sync with GitHub
-
-```bash
-jj git fetch
-jj git push
-```
-
-### Create a new branch
-
-```bash
-jj branch create new-feature
-```
 
 ## Game system management
 
