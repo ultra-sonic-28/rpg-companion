@@ -13,6 +13,7 @@ from rpg_companion.types.resource_type import ResourceType
 from rpg_companion.ui.resource_browser import ResourceBrowser
 from rpg_companion.ui.views.armors_result_webview import ArmorResultWebView
 from rpg_companion.ui.views.weapons_result_webview import WeaponsResultWebView
+from rpg_companion.ui.widgets.status_bar import StatusBar
 from rpg_companion.utils.qthreads import DBWorker
 from rpg_companion.ui.bridge import Bridge
 from rpg_companion.utils.resource_manager import ResourceManager
@@ -56,6 +57,12 @@ class MainWindow(QMainWindow):
         self.weapon_view = None
         self.armor_view = None
         self._resource_browser = None
+
+        # Status bar personnalisée
+        self.status_bar = StatusBar(self, show_datetime=True)
+        self.setStatusBar(self.status_bar)
+        # Exemple de message d'accueil
+        self.status_bar.set_message(_("Prêt"))
 
     # ----------------------------------------
     # Menu
@@ -262,4 +269,20 @@ class MainWindow(QMainWindow):
             """Affiche l'animation de lancer de dés."""
             overlay = DiceOverlay(self, "d10-dice.png", ResourceType.ICON)
             overlay.show()
-            
+
+    # ----------------------------------------
+    # Events
+    # ----------------------------------------
+    def _on_theme_changed(self, theme):
+        # Propager aux WebViews existantes
+        if self.weapon_view:
+            self.weapon_view.set_theme(theme)
+        if self.armor_view:
+            self.armor_view.set_theme(theme)
+
+        # Propager au status bar
+        try:
+            self.status_bar.set_theme(theme)
+        except Exception:
+            # Ne pas planter l'application si la status bar n'est pas encore créée
+            pass
