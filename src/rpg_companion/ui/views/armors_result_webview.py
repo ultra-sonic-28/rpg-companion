@@ -30,6 +30,10 @@ class ArmorResultWebView(ResultWebView):
         return f"""
         <table class="entry">
             <tr>
+                <td class="label">{strRoll}</td>
+                <td class="data">{result.get('roll')}</td>
+            </tr>
+            <tr>
                 <td class="label">{strRange}</td>
                 <td class="data">{result.get('range')}</td>
             </tr>
