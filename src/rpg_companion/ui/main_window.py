@@ -12,6 +12,7 @@ from rpg_companion.db.session import Session
 from rpg_companion.types.resource_type import ResourceType
 from rpg_companion.ui.resource_browser import ResourceBrowser
 from rpg_companion.ui.views.armors_result_webview import ArmorResultWebView
+from rpg_companion.ui.views.items_result_webview import ItemResultWebView
 from rpg_companion.ui.views.weapons_result_webview import WeaponsResultWebView
 from rpg_companion.ui.widgets.status_bar import StatusBar
 from rpg_companion.utils.qthreads import DBWorker
@@ -56,6 +57,7 @@ class MainWindow(QMainWindow):
         # Stockage des webviews
         self.weapon_view = None
         self.armor_view = None
+        self.item_view = None
         self._resource_browser = None
 
         # Status bar personnalisée
@@ -97,6 +99,10 @@ class MainWindow(QMainWindow):
         action_armors = menu_tables.addAction(_("Armures (Table A)"))
         action_armors.triggered.connect(self.on_roll_armor)
 
+        # Table des Objets (I)
+        action_items = menu_tables.addAction(_("Objets (Table I)"))
+        action_items.triggered.connect(self.on_roll_item)
+
         # --- Menu Développeur ---
         dev_menu = menu_bar.addMenu(_("Développeur"))
 
@@ -122,6 +128,9 @@ class MainWindow(QMainWindow):
         elif widget is self.armor_view:
             self.log.debug("Armors view closed")
             self.armor_view = None
+        elif widget is self.item_view:
+            self.log.debug("Items view closed")
+            self.item_view = None
         elif widget is self._resource_browser:
             self.log.debug("Resource browser view closed")
             self._resource_browser = None
@@ -135,6 +144,8 @@ class MainWindow(QMainWindow):
             self.weapon_view.set_theme(theme)
         if self.armor_view:
             self.armor_view.set_theme(theme)
+        if self.item_view:
+            self.item_view.set_theme(theme)
 
     # ----------------------------------------
     # Actions - Roll on Weapon Table
@@ -235,6 +246,55 @@ class MainWindow(QMainWindow):
         self.armor_pending_results.clear()
 
     # ----------------------------------------
+    # Actions - Roll on Item Table
+    # ----------------------------------------
+    def on_roll_item(self):
+        self.log.info("Roll on items table")
+        def work():
+            with Session() as session:
+                from rpg_companion.repos.item_repo import ItemRepository
+                from rpg_companion.services.item_service import ItemService
+
+                repo = ItemRepository(session)
+                svc = ItemService(repo)
+                return svc.roll_item()
+
+        self.show_dice_animation()
+
+        worker = DBWorker(work)
+        worker.signals.finished.connect(self._on_item_result)
+        self._threadpool.start(worker)
+
+    def _on_item_result(self, result, error):
+        if error:
+            QMessageBox.critical(self, "Erreur", str(error))
+            return
+
+        view = self.get_item_view()
+        view.append(result)
+        self.tabs.setCurrentWidget(view)
+
+    def get_item_view(self):
+        if self.item_view is None:
+            self.item_view = ItemResultWebView(_("Tirages d'Objets"), self, self.on_roll_item)
+
+            self.tabs.addTab(self.item_view, _("Objets"))
+
+        return self.item_view
+
+    def _on_item_view_loaded(self, ok):
+        if not ok:
+            print("ERREUR: Webview Objets n'a pas chargé la page HTML.")
+            return
+
+        # Injecter tout ce qui était en attente
+        for result in self.item_pending_results:
+            self.append_result_to_view(self.item_view, result)
+
+        # Puis vider la file
+        self.item_pending_results.clear()
+
+    # ----------------------------------------
     # Actions - Resource Browser
     # ----------------------------------------
     def open_resource_browser(self):
@@ -279,6 +339,8 @@ class MainWindow(QMainWindow):
             self.weapon_view.set_theme(theme)
         if self.armor_view:
             self.armor_view.set_theme(theme)
+        if self.item_view:
+            self.item_view.set_theme(theme)
 
         # Propager au status bar
         try:
