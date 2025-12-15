@@ -5,6 +5,7 @@ The format is based on Keep a Changelog (https://keepachangelog.com), and this p
 
 ## [Unreleased]
 ### Added
+- Add items dice roll and result view
 - Add armors dice roll and result view
 
 ## [0.1.0] - 2025-12-09
