@@ -54,6 +54,7 @@ class StatusBar(QStatusBar):
 
         # Barre de progression (cachée tant qu'inutilisée)
         self._progress = QProgressBar()
+        self._progress.setValue(0)
         self._progress.setMaximumWidth(200)
         self._progress.setVisible(False)
         self.addPermanentWidget(self._progress)
