@@ -25,7 +25,8 @@ def test(c):
 @task
 def coverage(c):
     """Lance les tests avec couverture et génère un rapport HTML."""
-    c.run("pytest --color=yes --cov=rpg_companion --cov-report=html ./src/__tests__/")
+    cmd = ['pytest', '--color=yes', '--cov=rpg_companion', '--cov-report=html',  './src/__tests__/']
+    result = subprocess.run(cmd, encoding="utf-8")
 
 @task
 def ico(c):
